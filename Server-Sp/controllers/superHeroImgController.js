@@ -3,12 +3,14 @@ const path = require("path");
 const { superhero, superpowers, SuperhroImg } = require("../models");
 const createHttpError = require("http-errors");
 module.exports.addSuperheroImage = async (req, res, next) => {
+	console.log("🚀 ~ file: superHeroImgController.js:9 ~ module.exports.addSuperheroImage= ~ filename:", 	req.file)
 	try {
 		const {
 			file: { filename },
 			params: { superheroId },
 		} = req;
-		console.log(superheroId);
+	
+
 		const superheroIndex = await superhero.findByPk(superheroId);
 
 		if (!superheroIndex) {

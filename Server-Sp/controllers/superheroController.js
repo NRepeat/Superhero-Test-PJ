@@ -7,6 +7,8 @@ module.exports.createSuperhero = async (req, res, next) => {
     const {
       body: { superpower, ...info },
     } = req;
+		console.log("🚀 ~ file: superheroController.js:9 ~ module.exports.createSuperhero= ~ body:",req.body)
+
     if (!superpower) {
       const d = await superhero.create(info);
   

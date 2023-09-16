@@ -1,13 +1,11 @@
 import React from "react";
 import {  useDispatch, useSelector } from "react-redux";
-import { Field, Form, Formik } from "formik";
 import { getAllSuperheros } from "../../../../redux/slices/superheroSlice";
 import constants from "../../../../constants";
 
 function GetAllSuperheros(props) {
   const dispatch = useDispatch();
   const sp = useSelector((state) => state.sphero.allSuperheros);
-  console.log("🚀 ~ file: index.jsx:9 ~ GetAllSuperheros ~ sp:", sp);
 
   const submitHandler = (values) => {
     dispatch(getAllSuperheros());
@@ -48,16 +46,7 @@ function GetAllSuperheros(props) {
     return <>Error</>;
   };
 
-  // const SpForm = () => {
-  //     <Formik>
-  //         <Form>
-  //             <Field name="Nickname" />
-  //             <Field />
-  //             <Field />
-  //             <Field />
-  //         </Form>
-  //     </Formik>
-  // }
+ 
 
   return (
     <>

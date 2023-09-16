@@ -7,7 +7,7 @@ const {
 } = require('../middlewares/validate.mv');
 superheroRouter.route("/all").get(superheroController.getAllSuperheros);
 
-superheroRouter.route("/").post(superheroController.createSuperhero);
+superheroRouter.route("/createSuperhero").post(superheroController.createSuperhero);
 superheroRouter
   .route("/:superheroId")
   .get(superheroController.getSuperhero)

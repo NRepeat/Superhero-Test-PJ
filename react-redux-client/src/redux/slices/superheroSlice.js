@@ -3,18 +3,34 @@ import * as API from "../../api/index";
 
 const SLICE_NAME = "superhero";
 
- export const getAllSuperheros = createAsyncThunk(
+export const getAllSuperheros = createAsyncThunk(
 	`${SLICE_NAME}/allSuperheros`,
-	async (superheroData, thunkApi) => {
+	async (thunkApi) => {
 		try {
-		const superheroData =  await API.SuperheroAPI.getAllSuperheros();
-		console.log("🚀 ~ file: superheroSlice.js:11 ~ superheroData:", superheroData)
-		return superheroData
+			const superheroData = await API.SuperheroAPI.getAllSuperheros();
+			return superheroData
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}
 	}
 );
+
+export const createSuperhero = createAsyncThunk(
+	`${SLICE_NAME}/createSuperhero`,
+	async (payload, thunkApi) => {
+
+
+		try {
+			const { formData, values } = payload
+			const superheroResponse = await API.SuperheroAPI.createSuperhero(values)
+			const { id } = superheroResponse.data.data
+			await API.SuperheroAPI.addSuperheroImg({ id, formData })
+		} catch (error) {
+			thunkApi.rejectWithValue(error);
+		}
+	}
+)
+
 
 const initialState = {
 	allSuperheros: [],
@@ -25,14 +41,13 @@ const initialState = {
 export const superheroSlice = createSlice({
 	name: SLICE_NAME,
 	initialState,
-	reducers: {}, 
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(getAllSuperheros.pending, (state) => {
 			state.isLoading = true;
 		});
 
 		builder.addCase(getAllSuperheros.fulfilled, (state, action) => {
-			console.log("🚀 ~ file: superheroSlice.js:34 ~ builder.addCase ~ action:", action)
 			state.isLoading = false;
 			state.allSuperheros.push(action.payload);
 		});
