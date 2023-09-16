@@ -1,36 +1,42 @@
 import React from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
-import { createSuperhero } from "../../redux/slices/superheroSlice";
+import { getAllSuperheros } from "../../../../redux/slices/superheroSlice";
+import constants from "../../../../constants";
 
-function Superhero(props) {
+function GetAllSuperheros(props) {
   const dispatch = useDispatch();
-  const sp = useSelector((state) => state.sphero);
+  const sp = useSelector((state) => state.sphero.allSuperheros);
+  console.log("🚀 ~ file: index.jsx:9 ~ GetAllSuperheros ~ sp:", sp);
 
   const submitHandler = (values) => {
-    dispatch(createSuperhero());
+    dispatch(getAllSuperheros());
   };
 
   const MapedSp = (data) => {
-    if (data.allSuperheros) {
-      
+    if (data) {
       return (
         <div>
           <h1>Супергерои</h1>
           <ul>
-            {data.allSuperheros.map((heroes) => (
+            {data.map((heroes) => (
               <li key={heroes.id}>
                 {heroes.map((hero) => (
                   <div key={hero.id}>
                     {hero.id}
-										{hero.nickname}
+                    {hero.SuperhroImgs.map((img) => (
+                      <img
+                        src={`${constants.publicImgURL}${img.superheroImgPath}`}
+                        alt="Описание изображения"
+                      />
+                    ))}
+                    {hero.nickname}
                     {hero.realName}
                     {hero.originDescription}
                     {hero.catchPhrase}
                     {hero.superpowers.map((ss) =>
-                      ss.superpower.map((s,i) => <div key={i}>{s}</div>)
+                      ss.superpower.map((s, i) => <div key={i}>{s}</div>)
                     )}
-                   
                   </div>
                 ))}
               </li>
@@ -61,4 +67,4 @@ function Superhero(props) {
   );
 }
 
-export default Superhero;
+export default GetAllSuperheros;

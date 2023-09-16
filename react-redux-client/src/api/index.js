@@ -5,9 +5,10 @@ const httpClient = axios.create({
 });
 
 const SuperheroAPI = {
-	getSuperheroAll: async () => {
+	getAllSuperheros: async () => {
 		try {
 			const response = await httpClient.get("/superhero/all");
+
 			return response.data.data;
 		} catch (error) {
 			console.error("Error fetching superhero data:", error);

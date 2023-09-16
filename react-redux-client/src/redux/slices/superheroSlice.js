@@ -3,11 +3,13 @@ import * as API from "../../api/index";
 
 const SLICE_NAME = "superhero";
 
-const createSuperhero = createAsyncThunk(
-	`${SLICE_NAME}/createSuperhero`,
+ export const getAllSuperheros = createAsyncThunk(
+	`${SLICE_NAME}/allSuperheros`,
 	async (superheroData, thunkApi) => {
 		try {
-			return await API.SuperheroAPI.getSuperheroAll();
+		const superheroData =  await API.SuperheroAPI.getAllSuperheros();
+		console.log("🚀 ~ file: superheroSlice.js:11 ~ superheroData:", superheroData)
+		return superheroData
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}
@@ -23,19 +25,19 @@ const initialState = {
 export const superheroSlice = createSlice({
 	name: SLICE_NAME,
 	initialState,
-	reducers: {}, // You can add any other reducers here if needed
+	reducers: {}, 
 	extraReducers: (builder) => {
-		builder.addCase(createSuperhero.pending, (state) => {
+		builder.addCase(getAllSuperheros.pending, (state) => {
 			state.isLoading = true;
 		});
 
-		builder.addCase(createSuperhero.fulfilled, (state, action) => {
+		builder.addCase(getAllSuperheros.fulfilled, (state, action) => {
 			console.log("🚀 ~ file: superheroSlice.js:34 ~ builder.addCase ~ action:", action)
 			state.isLoading = false;
 			state.allSuperheros.push(action.payload);
 		});
 
-		builder.addCase(createSuperhero.rejected, (state, action) => {
+		builder.addCase(getAllSuperheros.rejected, (state, action) => {
 			state.isLoading = false;
 			state.error = action.payload;
 		});
@@ -44,5 +46,4 @@ export const superheroSlice = createSlice({
 
 const { reducer: superheroReducer } = superheroSlice;
 
-export { createSuperhero };
 export default superheroReducer;
