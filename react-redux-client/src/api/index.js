@@ -23,7 +23,7 @@ const SuperheroAPI = {
 			throw error;
 		}
 	},
-	addSuperheroImg: async ( id, formData) => {
+	addSuperheroImg: async (id, formData) => {
 		try {
 			await httpClient.post(`/superheroImg/${id}/img`, formData,
 				{
@@ -54,9 +54,10 @@ const SuperheroAPI = {
 		}
 	},
 	updateSuperhero: async (payload) => {
-
+		const { superpower } = payload
 		try {
 			await httpClient.put(`/superhero/${payload.id}`, payload)
+			await httpClient.put(`/superpower/${payload.superpowerid}`, { superpower })
 		} catch (error) {
 			console.error("Error fetching superhero data:", error);
 			throw error;

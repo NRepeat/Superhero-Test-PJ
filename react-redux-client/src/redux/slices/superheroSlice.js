@@ -21,7 +21,7 @@ export const createSuperhero = createAsyncThunk(
 		try {
 			const superheroResponse = await API.SuperheroAPI.createSuperhero(values)
 			const { id } = superheroResponse.data.data
-			await API.SuperheroAPI.addSuperheroImg( id, formData)
+			await API.SuperheroAPI.addSuperheroImg(id, formData)
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}
@@ -64,7 +64,7 @@ export const uploadSuperheroImg = createAsyncThunk(
 	`${SLICE_NAME}/uploadSuperheroImg`,
 	async ({ formData, superheroId }, thunkApi) => {
 		try {
-			await API.SuperheroAPI.addSuperheroImg( superheroId, formData )
+			await API.SuperheroAPI.addSuperheroImg(superheroId, formData)
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}
@@ -87,6 +87,7 @@ export const superheroSlice = createSlice({
 
 		builder.addCase(getAllSuperheros.fulfilled, (state, action) => {
 			state.isLoading = false;
+			state.allSuperheros = []
 			state.allSuperheros.push(action.payload);
 		});
 

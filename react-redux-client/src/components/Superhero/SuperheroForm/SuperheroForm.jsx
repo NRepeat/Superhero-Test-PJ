@@ -6,9 +6,6 @@ function SuperheroForm() {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
   const init = {
     nickname: "",
     realName: "",
@@ -23,18 +20,20 @@ function SuperheroForm() {
     formData.append("image", file);
 
     dispatch(createSuperhero({ formData, values }));
-    console.log("Отправка данных:", { formData, values });
 
     resetForm();
     setSubmitting(false);
   };
-
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   return (
     <div>
       <h2>Создать супергероя</h2>
       <Formik initialValues={init} onSubmit={hsubmit}>
         {({ values, setFieldValue }) => (
           <Form>
+          
             <div>
               <label htmlFor="nickname">Никнейм:</label>
               <Field type="text" id="nickname" name="nickname" />

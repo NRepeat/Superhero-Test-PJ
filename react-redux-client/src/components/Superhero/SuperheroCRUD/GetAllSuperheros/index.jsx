@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllSuperheros,
@@ -9,20 +9,27 @@ import {
 } from "../../../../redux/slices/superheroSlice";
 import constants from "../../../../constants";
 import EditSuperheroForm from "../EditSuperheroForm";
+import SuperheroCard from "./SuperheroCard";
 
 function GetAllSuperheros(props) {
   const dispatch = useDispatch();
-  const sp = useSelector((state) => state.sphero.allSuperheros);
+  const superheros = useSelector((state) => state.sphero.allSuperheros);
+
 
   const [editSuperhero, setEditSuperhero] = useState(null);
 
-  const submitHandler = (values) => {
+  useEffect(() => {
     dispatch(getAllSuperheros());
-  };
+  }, [dispatch]);
 
-  const handleDelete = (data, heroId) => {
-    const imgsId = data.map((img) => img.id);
-    dispatch(deleteSuperhero({ imgsId, heroId }));
+  const handleDelete = async (superhero) => {
+    const imgsId = superhero.SuperhroImgs.map((img) => img.id);
+    try {
+      await dispatch(deleteSuperhero({ imgsId, heroId: superhero.id }));
+      dispatch(getAllSuperheros());
+    } catch (error) {
+      console.error("Ошибка при удалении супергероя:", error);
+    }
   };
 
   const handleEdit = (hero) => {
@@ -37,56 +44,32 @@ function GetAllSuperheros(props) {
 
   const handleDeleteImage = (imageId) => {
     dispatch(deleteSuperheroImg(imageId));
+    dispatch(getAllSuperheros());
   };
 
   const handleUploadImage = ({ formData, superheroId }) => {
     dispatch(uploadSuperheroImg({ formData, superheroId }));
-  };
-  const MapedSp = (data) => {
-    if (data) {
-      return (
-        <div>
-          <h1>Супергерои</h1>
-          <ul>
-            {data.map((heroes) => (
-              <li key={heroes.id}>
-                {heroes.map((hero) => (
-                  <div key={hero.id}>
-                    {hero.id}
-                    {hero.SuperhroImgs.map((img) => (
-                      <img
-                        style={{ width: 300 }}
-                        src={`${constants.publicImgURL}${img.superheroImgPath}`}
-                        alt="Описание изображения"
-                      />
-                    ))}
-                    {hero.nickname}
-                    {hero.realName}
-                    {hero.originDescription}
-                    {hero.catchPhrase}
-                    {hero.superpowers.map((ss) =>
-                      ss.superpower.map((s, i) => <div key={i}>{s}</div>)
-                    )}
-                    <button
-                      onClick={() => handleDelete(hero.SuperhroImgs, hero.id)}
-                    >
-                      Delete
-                    </button>
-                    <button onClick={() => handleEdit(hero)}>Edit</button>
-                  </div>
-                ))}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-    return <>Error</>;
+    dispatch(getAllSuperheros());
   };
 
   return (
     <>
-      {MapedSp(sp)}
+      <div>
+        <h1>Супергерои</h1>
+        {superheros ? (
+          superheros.map((hero) => {
+            return (
+              <SuperheroCard
+                superheroData={hero}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+              />
+            );
+          })
+        ) : (
+          <div>Error</div>
+        )}
+      </div>
       {editSuperhero && (
         <EditSuperheroForm
           superhero={editSuperhero}
@@ -95,7 +78,9 @@ function GetAllSuperheros(props) {
           onUploadImage={handleUploadImage}
         />
       )}
-      <button onClick={submitHandler}>Get Superheros</button>
+      <button onClick={() => dispatch(getAllSuperheros())}>
+        Get Superheros
+      </button>
     </>
   );
 }
