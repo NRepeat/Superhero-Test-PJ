@@ -3,13 +3,13 @@ const path = require("path");
 const { superhero, superpowers, SuperhroImg } = require("../models");
 const createHttpError = require("http-errors");
 module.exports.addSuperheroImage = async (req, res, next) => {
-	console.log("🚀 ~ file: superHeroImgController.js:9 ~ module.exports.addSuperheroImage= ~ filename:", 	req.file)
+	console.log("🚀 ~ file: superHeroImgController.js:9 ~ module.exports.addSuperheroImage= ~ filename:", req.file)
 	try {
 		const {
 			file: { filename },
 			params: { superheroId },
 		} = req;
-	
+
 
 		const superheroIndex = await superhero.findByPk(superheroId);
 
@@ -68,32 +68,40 @@ module.exports.updateSuperheroImg = async (req, res, next) => {
 };
 module.exports.deleteSuperheroImg = async (req, res, next) => {
 	try {
-		const {
-			params: { superheroId },
-		} = req;
+		const { superheroIds } = req.body;
+		console.log("🚀 ~ file: superHeroImgController.js:72 ~ module.exports.deleteSuperheroImg ~ req.body:", req.body)
+		console.log("🚀 ~ file: superHeroImgController.js:73 ~ module.exports.deleteSuperheroImg ~ superheroIds:", superheroIds)
 
-		const superheroImgData = await SuperhroImg.findByPk(superheroId);
-
-		if (!superheroImgData) {
-			return next(createHttpError(404, "Superhero image not found"));
+		// Проверка, что superheroIds - это массив
+		if (!Array.isArray(superheroIds)) {
+			return next(createHttpError(400, "superheroIds should be an array"));
 		}
 
-		const filePath = path.join(
-			__dirname,
-			"../public/images",
-			superheroImgData.superheroImgPath
-		);
-		fs.unlink(filePath, (err) => {
-			if (err) {
-				console.error("Error while deleting the file:", err);
-			} else {
-				console.log("File has been successfully deleted.");
+		for (const superheroId of superheroIds) {
+			const superheroImgData = await SuperhroImg.findByPk(superheroId);
+
+			if (!superheroImgData) {
+				console.error(`Superhero image with ID ${superheroId} not found`);
+				continue;
 			}
-		});
 
-		await superheroImgData.destroy();
+			const filePath = path.join(
+				__dirname,
+				"../public/images",
+				superheroImgData.superheroImgPath
+			);
+			fs.unlink(filePath, (err) => {
+				if (err) {
+					console.error(`Error while deleting the file for superhero ID ${superheroId}:`, err);
+				} else {
+					console.log(`File for superhero ID ${superheroId} has been successfully deleted.`);
+				}
+			});
 
-		res.send({ message: "Superhero image deleted successfully" });
+			await superheroImgData.destroy();
+		}
+
+		res.status(200).json({ message: "Superhero images deleted successfully" });
 	} catch (error) {
 		next(error);
 	}

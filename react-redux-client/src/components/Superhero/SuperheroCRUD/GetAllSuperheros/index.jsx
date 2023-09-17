@@ -1,6 +1,9 @@
 import React from "react";
-import {  useDispatch, useSelector } from "react-redux";
-import { getAllSuperheros } from "../../../../redux/slices/superheroSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllSuperheros,
+  deleteSuperhero,
+} from "../../../../redux/slices/superheroSlice";
 import constants from "../../../../constants";
 
 function GetAllSuperheros(props) {
@@ -10,7 +13,11 @@ function GetAllSuperheros(props) {
   const submitHandler = (values) => {
     dispatch(getAllSuperheros());
   };
-
+  const handleDelete = (data,heroId) => {
+    console.log(data);
+    const imgsId = data.map((img) => img.id);
+    dispatch(deleteSuperhero({imgsId,heroId}));
+  };
   const MapedSp = (data) => {
     if (data) {
       return (
@@ -24,6 +31,7 @@ function GetAllSuperheros(props) {
                     {hero.id}
                     {hero.SuperhroImgs.map((img) => (
                       <img
+                        style={{ width: 300 }}
                         src={`${constants.publicImgURL}${img.superheroImgPath}`}
                         alt="Описание изображения"
                       />
@@ -35,6 +43,9 @@ function GetAllSuperheros(props) {
                     {hero.superpowers.map((ss) =>
                       ss.superpower.map((s, i) => <div key={i}>{s}</div>)
                     )}
+                    <button onClick={() => handleDelete(hero.SuperhroImgs,hero.id)}>
+                      Deltete
+                    </button>
                   </div>
                 ))}
               </li>
@@ -45,8 +56,6 @@ function GetAllSuperheros(props) {
     }
     return <>Error</>;
   };
-
- 
 
   return (
     <>

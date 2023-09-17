@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpClient = axios.create({
-	baseURL: "http://localhost:5000",
+	baseURL: "http://localhost:5001",
 });
 
 const SuperheroAPI = {
@@ -17,7 +17,6 @@ const SuperheroAPI = {
 	createSuperhero: async (payload) => {
 		try {
 			const data = await httpClient.post('/superhero/createSuperhero', payload)
-			console.log("🚀 ~ file: index.js:20 ~ createSuperhero: ~ data:", data)
 			return data
 		} catch (error) {
 			console.error("Error fetching superhero data:", error);
@@ -25,8 +24,7 @@ const SuperheroAPI = {
 		}
 	},
 	addSuperheroImg: async (payload) => {
-		console.log("🚀 ~ file: index.js:28 ~ addSuperheroImg: ~ payload:", payload
-		)
+
 		try {
 			await httpClient.post(`/superheroImg/${payload.id}/img`, payload.formData,
 				{
@@ -39,13 +37,21 @@ const SuperheroAPI = {
 			throw error;
 		}
 	},
-	addSuperheroByID: async (payload) => {
-
-
+	getSuperheroByID: async (payload) => {
 		try {
 			await httpClient.get(`'/superhero/`)
 		} catch (error) {
-
+		}
+	},
+	deleteSuperhero: async ({ heroId, imgsId }) => {
+		try {
+			await httpClient.delete(`/superheroImg/${heroId}/img`, {
+				data: { superheroIds: imgsId },
+			})
+			await httpClient.delete(`/superhero/${heroId}`);
+		} catch (error) {
+			console.error("Error fetching superhero data:", error);
+			throw error;
 		}
 	}
 };

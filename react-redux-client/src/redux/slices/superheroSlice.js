@@ -17,11 +17,8 @@ export const getAllSuperheros = createAsyncThunk(
 
 export const createSuperhero = createAsyncThunk(
 	`${SLICE_NAME}/createSuperhero`,
-	async (payload, thunkApi) => {
-
-
+	async ({ formData, values }, thunkApi) => {
 		try {
-			const { formData, values } = payload
 			const superheroResponse = await API.SuperheroAPI.createSuperhero(values)
 			const { id } = superheroResponse.data.data
 			await API.SuperheroAPI.addSuperheroImg({ id, formData })
@@ -30,7 +27,15 @@ export const createSuperhero = createAsyncThunk(
 		}
 	}
 )
+export const deleteSuperhero = createAsyncThunk(`${SLICE_NAME}/createSuperhero`,
+	async ({ heroId, imgsId }, thunkApi) => {
+		try {
 
+			await API.SuperheroAPI.deleteSuperhero({ heroId, imgsId })
+		} catch (error) {
+			thunkApi.rejectWithValue(error);
+		}
+	})
 
 const initialState = {
 	allSuperheros: [],
