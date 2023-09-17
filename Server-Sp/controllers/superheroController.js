@@ -76,6 +76,9 @@ module.exports.updateSuperhero = async (req, res, next) => {
       body,
       params: { superheroId },
     } = req;
+		console.log("🚀 ~ file: superheroController.js:78 ~ module.exports.updateSuperhero= ~  superheroId:",  superheroId)
+
+      console.log("🚀 ~ file: superheroController.js:79 ~ module.exports.updateSuperhero= ~  body:",  body)
     if (!superheroId) {
       return next(createHttpError(404, "User not found"));
     }

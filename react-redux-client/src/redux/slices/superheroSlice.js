@@ -21,13 +21,14 @@ export const createSuperhero = createAsyncThunk(
 		try {
 			const superheroResponse = await API.SuperheroAPI.createSuperhero(values)
 			const { id } = superheroResponse.data.data
-			await API.SuperheroAPI.addSuperheroImg({ id, formData })
+			await API.SuperheroAPI.addSuperheroImg( id, formData)
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}
 	}
 )
-export const deleteSuperhero = createAsyncThunk(`${SLICE_NAME}/createSuperhero`,
+export const deleteSuperhero = createAsyncThunk(
+	`${SLICE_NAME}/deleteSuperhero`,
 	async ({ heroId, imgsId }, thunkApi) => {
 		try {
 
@@ -37,6 +38,38 @@ export const deleteSuperhero = createAsyncThunk(`${SLICE_NAME}/createSuperhero`,
 		}
 	})
 
+export const updateSuperhero = createAsyncThunk(
+	`${SLICE_NAME}/updateSuperhero`,
+	async (payload, thunkApi) => {
+
+		try {
+			await API.SuperheroAPI.updateSuperhero(payload)
+		} catch (error) {
+			thunkApi.rejectWithValue(error);
+		}
+	},
+
+)
+export const deleteSuperheroImg = createAsyncThunk(
+	`${SLICE_NAME}/deleteSuperheroImg`,
+	async ({ superheroId, imageId }, thunkApi) => {
+		try {
+			await API.SuperheroAPI.deleteSuperheroImg({ superheroId, imageId })
+		} catch (error) {
+			thunkApi.rejectWithValue(error);
+		}
+	})
+
+export const uploadSuperheroImg = createAsyncThunk(
+	`${SLICE_NAME}/uploadSuperheroImg`,
+	async ({ formData, superheroId }, thunkApi) => {
+		try {
+			await API.SuperheroAPI.addSuperheroImg( superheroId, formData )
+		} catch (error) {
+			thunkApi.rejectWithValue(error);
+		}
+	}
+)
 const initialState = {
 	allSuperheros: [],
 	isLoading: false,

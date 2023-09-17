@@ -11,7 +11,7 @@ superheroRouter.route("/createSuperhero").post(superheroController.createSuperhe
 superheroRouter
   .route("/:superheroId")
   .get(superheroController.getSuperhero)
-  .put(validateSuperheroBody,superheroController.updateSuperhero)
+  .put(superheroController.updateSuperhero)
   .delete(superheroController.deleteSuperhero);
 
 module.exports = superheroRouter;

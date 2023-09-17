@@ -69,10 +69,8 @@ module.exports.updateSuperheroImg = async (req, res, next) => {
 module.exports.deleteSuperheroImg = async (req, res, next) => {
 	try {
 		const { superheroIds } = req.body;
-		console.log("🚀 ~ file: superHeroImgController.js:72 ~ module.exports.deleteSuperheroImg ~ req.body:", req.body)
-		console.log("🚀 ~ file: superHeroImgController.js:73 ~ module.exports.deleteSuperheroImg ~ superheroIds:", superheroIds)
 
-		// Проверка, что superheroIds - это массив
+
 		if (!Array.isArray(superheroIds)) {
 			return next(createHttpError(400, "superheroIds should be an array"));
 		}

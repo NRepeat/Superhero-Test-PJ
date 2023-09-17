@@ -23,10 +23,9 @@ const SuperheroAPI = {
 			throw error;
 		}
 	},
-	addSuperheroImg: async (payload) => {
-
+	addSuperheroImg: async ( id, formData) => {
 		try {
-			await httpClient.post(`/superheroImg/${payload.id}/img`, payload.formData,
+			await httpClient.post(`/superheroImg/${id}/img`, formData,
 				{
 					headers: {
 						"Content-Type": "multipart/form-data",
@@ -52,6 +51,26 @@ const SuperheroAPI = {
 		} catch (error) {
 			console.error("Error fetching superhero data:", error);
 			throw error;
+		}
+	},
+	updateSuperhero: async (payload) => {
+
+		try {
+			await httpClient.put(`/superhero/${payload.id}`, payload)
+		} catch (error) {
+			console.error("Error fetching superhero data:", error);
+			throw error;
+		}
+	},
+	deleteSuperheroImg: async ({ superheroId, imageId }) => {
+
+
+		try {
+			await httpClient.delete(`/superheroImg/${superheroId}/img`, {
+				data: { superheroIds: [imageId] },
+			})
+		} catch (error) {
+
 		}
 	}
 };

@@ -1,22 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllSuperheros,
   deleteSuperhero,
+  updateSuperhero,
+  deleteSuperheroImg,
+  uploadSuperheroImg,
 } from "../../../../redux/slices/superheroSlice";
 import constants from "../../../../constants";
+import EditSuperheroForm from "../EditSuperheroForm";
 
 function GetAllSuperheros(props) {
   const dispatch = useDispatch();
   const sp = useSelector((state) => state.sphero.allSuperheros);
 
+  const [editSuperhero, setEditSuperhero] = useState(null);
+
   const submitHandler = (values) => {
     dispatch(getAllSuperheros());
   };
-  const handleDelete = (data,heroId) => {
-    console.log(data);
+
+  const handleDelete = (data, heroId) => {
     const imgsId = data.map((img) => img.id);
-    dispatch(deleteSuperhero({imgsId,heroId}));
+    dispatch(deleteSuperhero({ imgsId, heroId }));
+  };
+
+  const handleEdit = (hero) => {
+    setEditSuperhero(hero);
+  };
+
+  const handleUpdate = (updatedSuperhero) => {
+    dispatch(updateSuperhero(updatedSuperhero));
+    dispatch(getAllSuperheros());
+    setEditSuperhero(null);
+  };
+
+  const handleDeleteImage = (imageId) => {
+    dispatch(deleteSuperheroImg(imageId));
+  };
+
+  const handleUploadImage = ({ formData, superheroId }) => {
+    dispatch(uploadSuperheroImg({ formData, superheroId }));
   };
   const MapedSp = (data) => {
     if (data) {
@@ -43,9 +67,12 @@ function GetAllSuperheros(props) {
                     {hero.superpowers.map((ss) =>
                       ss.superpower.map((s, i) => <div key={i}>{s}</div>)
                     )}
-                    <button onClick={() => handleDelete(hero.SuperhroImgs,hero.id)}>
-                      Deltete
+                    <button
+                      onClick={() => handleDelete(hero.SuperhroImgs, hero.id)}
+                    >
+                      Delete
                     </button>
+                    <button onClick={() => handleEdit(hero)}>Edit</button>
                   </div>
                 ))}
               </li>
@@ -60,6 +87,14 @@ function GetAllSuperheros(props) {
   return (
     <>
       {MapedSp(sp)}
+      {editSuperhero && (
+        <EditSuperheroForm
+          superhero={editSuperhero}
+          onUpdate={handleUpdate}
+          onDeleteImage={handleDeleteImage}
+          onUploadImage={handleUploadImage}
+        />
+      )}
       <button onClick={submitHandler}>Get Superheros</button>
     </>
   );

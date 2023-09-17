@@ -5,7 +5,6 @@ import { createSuperhero } from "../../../redux/slices/superheroSlice";
 function SuperheroForm() {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
-  const handleUpload = () => {};
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -104,13 +103,12 @@ function SuperheroForm() {
                 </div>
               ))}
             </div>
-						<div>
+            <div>
               <input type="file" onChange={handleFileChange} />
             </div>
             <div>
               <button type="submit">Создать супергероя</button>
             </div>
-        
           </Form>
         )}
       </Formik>
