@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import constants from "../../../constants";
 import SuperheroDetailsModal from "../SuperheroDetailsModal/SuperheroDetailsModal";
-
+import style from "./style.module.scss";
 function SuperheroCard({
   superheroData,
   onDelete,
@@ -46,24 +46,32 @@ function SuperheroCard({
   const openDescription = selectedHero !== null;
 
   return (
-    <div>
-      {heroesToDisplay.map((hero) => (
-        <div key={hero.id} onClick={() => setSelectedHero(hero)}>
-          {hero.id}
-          {hero.SuperhroImgs[0] && (
-            <img
-              style={{ width: 300, height: 500 }}
-              src={`${constants.publicImgURL}${hero.SuperhroImgs[0].superheroImgPath}`}
-              alt="Описание изображения"
-            />
-          )}
-          {hero.nickname}
-          <button onClick={() => setSelectedHero(hero)}>Details</button>
-        </div>
-      ))}
+    <div className={style.cardContainer}>
+			<div></div>
+      <div className={style.cardWrapper}>
+        {heroesToDisplay.map((hero) => (
+          <div
+            key={hero.id}
+            onClick={() => setSelectedHero(hero)}
+            className={style.card}
+          >
+            <p>Superhero ID: {hero.id}</p>
+            {hero.SuperhroImgs[0] && (
+              <img
+                src={`${constants.publicImgURL}${hero.SuperhroImgs[0].superheroImgPath}`}
+                alt="Описание изображения"
+              />
+            )}
+            <div>
+              <p>Nickname: {hero.nickname}</p>
+              <button onClick={() => setSelectedHero(hero)}>Details</button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {openDescription && selectedHero && (
-        <SuperheroDetailsModal 
+        <SuperheroDetailsModal
           selectedHero={selectedHero}
           onClose={() => setSelectedHero(null)}
           onDelete={onDelete}
@@ -75,7 +83,7 @@ function SuperheroCard({
         />
       )}
 
-      <div>
+      <div className={style.pagination}>
         <button onClick={prevPage} disabled={currentPage === 1}>
           Previous
         </button>

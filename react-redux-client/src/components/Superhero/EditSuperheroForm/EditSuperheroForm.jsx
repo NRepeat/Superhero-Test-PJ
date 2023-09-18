@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import constants from "../../../constants";
-import "./EditSuperheroForm.scss"; 
+import "./EditSuperheroForm.scss";
 function EditSuperheroForm({
   superhero,
   onUpdate,
@@ -40,92 +40,112 @@ function EditSuperheroForm({
   };
 
   return (
-    <Formik
-      initialValues={updatedSuperhero}
-      onSubmit={(values) => {
-        onUpdate(values);
-      }}
-    >
-      {({ values, setFieldValue }) => (
-        <Form className="form-container">
-          <div>
-            <h2>Edit Superhero</h2>
-            <label>
-              Nickname:
-              <Field type="text" name="nickname" />
-            </label>
-            <label>
-              Real Name:
-              <Field type="text" name="realName" />
-            </label>
-            <label>
-              Origin description:
-              <Field type="text" name="originDescription" />
-            </label>
-            <div>
-              <label htmlFor="superpowers">Суперспособности:</label>
-              {values.superpower.map((superpower, index) => (
-                <div key={index}>
-                  <Field
-                    type="text"
-                    name={`superpower[${index}]`}
-                    placeholder={`Суперспособность[${index + 1}]`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const updatedSuperpowers = [...values.superpower];
-                      updatedSuperpowers.splice(index, 1);
-                      setFieldValue("superpower", updatedSuperpowers);
-                    }}
-                  >
-                    Удалить
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  const newSuperpowers = [...values.superpower, ""];
-                  setFieldValue("superpower", newSuperpowers);
-                }}
-              >
-                Добавить суперспособность
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <h3>Image</h3>
-            {values.SuperhroImgs.map((img) => (
-              <div key={img.id} className="image-container">
-                <img
-                  src={`${constants.publicImgURL}${img.superheroImgPath}`}
-                  alt="Superhero"
+    <div className="form-container">
+      <Formik
+        initialValues={updatedSuperhero}
+        onSubmit={(values) => {
+          onUpdate(values);
+        }}
+      >
+        {({ values, setFieldValue }) => (
+          <Form>
+            <div className="form-wrapper">
+              <h2>Edit Superhero</h2>
+              <label>
+                Nickname:
+                <Field type="text" name="nickname" />
+              </label>
+              <label>
+                Real Name:
+                <Field type="text" name="realName" />
+              </label>
+              <label>
+                Origin description:
+                <Field
+                  className="originDescription"
+                  as="textarea"
+                  type="text"
+                  name="originDescription"
                 />
+              </label>
+              <div className="superpowers">
+                <label htmlFor="superpowers">Superpowers:</label>
+                {values.superpower.map((superpower, index) => (
+                  <div key={index}>
+                    <Field
+                      type="text"
+                      name={`superpower[${index}]`}
+                      placeholder={`Суперспособность[${index + 1}]`}
+                    />
+
+                    <button
+                      className="delete"
+                      type="button"
+                      onClick={() => {
+                        const updatedSuperpowers = [...values.superpower];
+                        updatedSuperpowers.splice(index, 1);
+                        setFieldValue("superpower", updatedSuperpowers);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
                 <button
-                  onClick={(event) =>
-                    handleDeleteImage(img.id, values.id, event)
-                  }
+                  className="button-submit "
+                  type="button"
+                  onClick={() => {
+                    const newSuperpowers = [...values.superpower, ""];
+                    setFieldValue("superpower", newSuperpowers);
+                  }}
                 >
-                  Delete
+                  Add superpower
                 </button>
               </div>
-            ))}
-            <Field
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            <button onClick={(event) => handleUploadImage(values.id, event)}>
-              Upload Image
+            </div>
+
+            <div>
+              <h3>Image</h3>
+              <div className="img-wrapper">
+                {" "}
+                {values.SuperhroImgs.map((img) => (
+                  <div key={img.id} className="image-container">
+                    <img
+                      src={`${constants.publicImgURL}${img.superheroImgPath}`}
+                      alt="Superhero"
+                    />
+                    <button
+                      className="delete"
+                      onClick={(event) =>
+                        handleDeleteImage(img.id, values.id, event)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <Field
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <button
+                className="upload-button"
+                onClick={(event) => handleUploadImage(values.id, event)}
+              >
+                Upload Image
+              </button>
+            </div>
+            <button type="submit" className="button-submit ">
+              Save
             </button>
-          </div>
-          <button type="submit"  className="submit-button">Save</button>
-        </Form>
-      )}
-    </Formik>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
 

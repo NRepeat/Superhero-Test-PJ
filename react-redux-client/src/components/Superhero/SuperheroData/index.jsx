@@ -8,7 +8,7 @@ import {
   uploadSuperheroImg,
 } from "../../../redux/slices/superheroSlice";
 import SuperheroCard from "../SuperheroCard.jsx/SuperheroCard";
-
+import style from "./style.module.scss";
 function SuperheroData(props) {
   const dispatch = useDispatch();
   const superheros = useSelector((state) => state.sphero.allSuperheros);
@@ -26,7 +26,12 @@ function SuperheroData(props) {
   const handleDelete = async (superhero) => {
     try {
       const imgsId = superhero.SuperhroImgs.map((img) => img.id);
-      await dispatch(deleteSuperhero({ imgsId, heroId: superhero.id }));
+      const res = await dispatch(
+        deleteSuperhero({ imgsId, heroId: superhero.id })
+      );
+      if (res) {
+        alert("Superhero deleted successfully");
+      }
       setCanFetch(true);
     } catch (error) {
       console.error("Ошибка при удалении супергероя:", error);
@@ -44,8 +49,10 @@ function SuperheroData(props) {
 
   const handleUpdate = async (updatedSuperhero) => {
     try {
-
-      await dispatch(updateSuperhero(updatedSuperhero));
+      const res = await dispatch(updateSuperhero(updatedSuperhero));
+      if (res) {
+        alert("Superhero updated successfully");
+      }
       setEditSuperhero(null);
 
       setCanFetch(true);
@@ -56,7 +63,10 @@ function SuperheroData(props) {
 
   const handleDeleteImage = async (imageId) => {
     try {
-      dispatch(deleteSuperheroImg(imageId));
+       const res =dispatch(deleteSuperheroImg(imageId));
+			if (res) {
+        alert("Superhero image deleted successfully");
+      }
       setCanFetch(true);
     } catch (error) {
       console.error("Ошибка при удалении изображения супергероя:", error);
@@ -65,7 +75,10 @@ function SuperheroData(props) {
 
   const handleUploadImage = async ({ formData, superheroId }) => {
     try {
-      dispatch(uploadSuperheroImg({ formData, superheroId }));
+     const res = dispatch(uploadSuperheroImg({ formData, superheroId }));
+		 if (res) {
+			alert("Superhero image uploaded successfully");
+		}
       setCanFetch(true);
     } catch (error) {
       console.error("Ошибка при загрузке изображения супергероя:", error);
@@ -75,25 +88,28 @@ function SuperheroData(props) {
   return (
     <>
       <div>
-        <h1>Супергерои</h1>
-        {superheros ? (
-          superheros.map((hero, id) => {
-            return (
-              <SuperheroCard
-                key={id}
-                superheroData={hero}
-                onDelete={handleDelete}
-                onEdit={handleEdit}
-                onUpdate={handleUpdate}
-                onDeleteImage={handleDeleteImage}
-                onUploadImage={handleUploadImage}
-                editSuperhero={editSuperhero}
-              />
-            );
-          })
-        ) : (
-          <div>Error</div>
-        )}
+        <h1>Superheroes</h1>
+
+        <div className={style.superherosContainer}>
+          {superheros ? (
+            superheros.map((hero, id) => {
+              return (
+                <SuperheroCard
+                  key={id}
+                  superheroData={hero}
+                  onDelete={handleDelete}
+                  onEdit={handleEdit}
+                  onUpdate={handleUpdate}
+                  onDeleteImage={handleDeleteImage}
+                  onUploadImage={handleUploadImage}
+                  editSuperhero={editSuperhero}
+                />
+              );
+            })
+          ) : (
+            <div>Error</div>
+          )}
+        </div>
       </div>
     </>
   );

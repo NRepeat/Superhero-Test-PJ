@@ -55,7 +55,6 @@ module.exports.updateSuperheroImg = async (req, res, next) => {
 			params: { superheroId },
 		} = req;
 
-		const filePath = path.join(__dirname, "../public/images", filename);
 		const superheroImgToupdate = await SuperhroImg.findByPk(superheroId);
 
 		const updatedSuperheroImg = await superheroImgToupdate.update({

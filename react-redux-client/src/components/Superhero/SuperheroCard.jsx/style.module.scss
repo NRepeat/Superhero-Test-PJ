@@ -1,0 +1,28 @@
+.cardContainer {
+	display: flex;
+	flex-direction: column;
+	min-height: 300px;
+	height: 300px;
+	justify-content: space-around;
+	align-items: center;
+  .cardWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+min-height: 300px;
+    .card {
+      display: flex;
+      flex-direction: column;
+      img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid red;
+      }
+    }
+  }
+  .pagination {
+
+  }
+}

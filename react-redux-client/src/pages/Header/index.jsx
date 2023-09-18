@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Link } from "react-router-dom";
 
-import "./Header.css"; // Импортируйте файл со стилями
+import "./Header.scss";
 
 function Header() {
   return (
@@ -10,7 +10,7 @@ function Header() {
       <Link to="/" className="header-link">
         Go back to Home Page
       </Link>
-      <Link to="/superhero">Go to Superhero Page</Link>
+      <Link to="/superhero" className="header-link">Go to Superhero Page</Link>
     </div>
   );
 }
