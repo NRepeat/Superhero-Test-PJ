@@ -21,11 +21,8 @@ function SuperheroForm() {
     const formData = new FormData();
     formData.append("image", file);
 
-  const res =   dispatch(createSuperhero({ formData, values }));
-  console.log("🚀 ~ file: SuperheroForm.jsx:25 ~ handleSubmit ~ res:", res)
-if(res){
-	alert("Hero created successfully")
-}
+    dispatch(createSuperhero({ formData, values }));
+   
     resetForm();
     setSubmitting(false);
   };
@@ -42,31 +39,73 @@ if(res){
           <Form>
             <div>
               <label htmlFor="nickname">Nickname:</label>
-              <Field type="text" id="nickname" name="nickname" className={styles.inputField} />
-              <ErrorMessage name="nickname" component="div" className={styles.error} />
+              <Field
+                type="text"
+                id="nickname"
+                name="nickname"
+                className={styles.inputField}
+              />
+              <ErrorMessage
+                name="nickname"
+                component="div"
+                className={styles.error}
+              />
             </div>
 
             <div>
               <label htmlFor="realName">Real Name:</label>
-              <Field type="text" id="realName" name="realName" className={styles.inputField} />
-              <ErrorMessage name="realName" component="div" className={styles.error} />
+              <Field
+                type="text"
+                id="realName"
+                name="realName"
+                className={styles.inputField}
+              />
+              <ErrorMessage
+                name="realName"
+                component="div"
+                className={styles.error}
+              />
             </div>
 
             <div>
               <label htmlFor="originDescription">Origin Description:</label>
-              <Field as="textarea" id="originDescription" name="originDescription" className={styles.inputField} />
-              <ErrorMessage name="originDescription" component="div" className={styles.error} />
+              <Field
+                as="textarea"
+                id="originDescription"
+                name="originDescription"
+                className={styles.inputField}
+              />
+              <ErrorMessage
+                name="originDescription"
+                component="div"
+                className={styles.error}
+              />
             </div>
 
             <div>
               <label htmlFor="catchPhrase">Catch Phrase:</label>
-              <Field type="text" id="catchPhrase" name="catchPhrase" className={styles.inputField} />
-              <ErrorMessage name="catchPhrase" component="div" className={styles.error} />
+              <Field
+                type="text"
+                id="catchPhrase"
+                name="catchPhrase"
+                className={styles.inputField}
+              />
+              <ErrorMessage
+                name="catchPhrase"
+                component="div"
+                className={styles.error}
+              />
             </div>
 
             <div>
               <label htmlFor="superpower">Superpowers:</label>
-              <Field type="text" id="superpower" name="superpower" readOnly className={styles.inputField} />
+              <Field
+                type="text"
+                id="superpower"
+                name="superpower"
+                readOnly
+                className={styles.inputField}
+              />
               <button
                 type="button"
                 onClick={() => {

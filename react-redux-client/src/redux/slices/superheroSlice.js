@@ -22,6 +22,7 @@ export const createSuperhero = createAsyncThunk(
 			const superheroResponse = await API.SuperheroAPI.createSuperhero(values)
 			const { id } = superheroResponse.data.data
 			await API.SuperheroAPI.addSuperheroImg(id, formData)
+			return superheroResponse
 		} catch (error) {
 			thunkApi.rejectWithValue(error);
 		}

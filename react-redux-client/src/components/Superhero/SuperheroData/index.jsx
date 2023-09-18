@@ -26,15 +26,11 @@ function SuperheroData(props) {
   const handleDelete = async (superhero) => {
     try {
       const imgsId = superhero.SuperhroImgs.map((img) => img.id);
-      const res = await dispatch(
-        deleteSuperhero({ imgsId, heroId: superhero.id })
-      );
-      if (res) {
-        alert("Superhero deleted successfully");
-      }
+      await dispatch(deleteSuperhero({ imgsId, heroId: superhero.id }));
+
       setCanFetch(true);
     } catch (error) {
-      console.error("Ошибка при удалении супергероя:", error);
+      console.error("Error deleting superhero:", error);
     }
   };
 
@@ -43,45 +39,39 @@ function SuperheroData(props) {
       setEditSuperhero(hero);
       setCanFetch(true);
     } catch (error) {
-      console.error("Ошибка при редактировании супергероя:", error);
+      console.error("Error editing superhero:", error);
     }
   };
 
   const handleUpdate = async (updatedSuperhero) => {
     try {
-      const res = await dispatch(updateSuperhero(updatedSuperhero));
-      if (res) {
-        alert("Superhero updated successfully");
-      }
+      await dispatch(updateSuperhero(updatedSuperhero));
+
       setEditSuperhero(null);
 
       setCanFetch(true);
     } catch (error) {
-      console.error("Ошибка при обновлении супергероя:", error);
+      console.error("Error updating superhero:", error);
     }
   };
 
   const handleDeleteImage = async (imageId) => {
     try {
-       const res =dispatch(deleteSuperheroImg(imageId));
-			if (res) {
-        alert("Superhero image deleted successfully");
-      }
+      dispatch(deleteSuperheroImg(imageId));
+
       setCanFetch(true);
     } catch (error) {
-      console.error("Ошибка при удалении изображения супергероя:", error);
+      console.error("Error deleting superhero image:", error);
     }
   };
 
   const handleUploadImage = async ({ formData, superheroId }) => {
     try {
-     const res = dispatch(uploadSuperheroImg({ formData, superheroId }));
-		 if (res) {
-			alert("Superhero image uploaded successfully");
-		}
+      dispatch(uploadSuperheroImg({ formData, superheroId }));
+
       setCanFetch(true);
     } catch (error) {
-      console.error("Ошибка при загрузке изображения супергероя:", error);
+      console.error("Error loading superhero image:", error);
     }
   };
 

@@ -52,8 +52,12 @@ function SuperheroDetailsModal({
           </div>
 
           <div className={style.button}>
-            <button onClick={() => onDelete(selectedHero)}>Delete</button>
-            <button onClick={() => onEdit(selectedHero)}>Edit</button>
+            {!editSuperhero && (
+              <button onClick={() => onEdit(selectedHero)}>Edit</button>
+            )}
+            {!editSuperhero && (
+              <button onClick={() => onDelete(selectedHero)}>Delete</button>
+            )}
             <button onClick={onClose}>Close</button>
           </div>
         </div>

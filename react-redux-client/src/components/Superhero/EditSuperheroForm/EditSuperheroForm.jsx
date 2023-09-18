@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import constants from "../../../constants";
-import "./EditSuperheroForm.scss";
+import styles from "./index.module.scss"; // Импорт модульного SASS
+
 function EditSuperheroForm({
   superhero,
   onUpdate,
@@ -40,7 +41,7 @@ function EditSuperheroForm({
   };
 
   return (
-    <div className="form-container">
+    <div className={styles["form-container"]}>
       <Formik
         initialValues={updatedSuperhero}
         onSubmit={(values) => {
@@ -49,7 +50,7 @@ function EditSuperheroForm({
       >
         {({ values, setFieldValue }) => (
           <Form>
-            <div className="form-wrapper">
+            <div className={styles["form-wrapper"]}>
               <h2>Edit Superhero</h2>
               <label>
                 Nickname:
@@ -62,13 +63,13 @@ function EditSuperheroForm({
               <label>
                 Origin description:
                 <Field
-                  className="originDescription"
+                  className={styles["originDescription"]}
                   as="textarea"
                   type="text"
                   name="originDescription"
                 />
               </label>
-              <div className="superpowers">
+              <div className={styles["superpowers"]}>
                 <label htmlFor="superpowers">Superpowers:</label>
                 {values.superpower.map((superpower, index) => (
                   <div key={index}>
@@ -79,7 +80,7 @@ function EditSuperheroForm({
                     />
 
                     <button
-                      className="delete"
+                      className={styles["delete"]}
                       type="button"
                       onClick={() => {
                         const updatedSuperpowers = [...values.superpower];
@@ -92,7 +93,7 @@ function EditSuperheroForm({
                   </div>
                 ))}
                 <button
-                  className="button-submit "
+                  className={`${styles["button-submit"]} ${styles["add-superpower"]}`}
                   type="button"
                   onClick={() => {
                     const newSuperpowers = [...values.superpower, ""];
@@ -106,16 +107,15 @@ function EditSuperheroForm({
 
             <div>
               <h3>Image</h3>
-              <div className="img-wrapper">
-                {" "}
+              <div className={styles["img-wrapper"]}>
                 {values.SuperhroImgs.map((img) => (
-                  <div key={img.id} className="image-container">
+                  <div key={img.id} className={styles["image-container"]}>
                     <img
                       src={`${constants.publicImgURL}${img.superheroImgPath}`}
                       alt="Superhero"
                     />
                     <button
-                      className="delete"
+                      className={styles["delete"]}
                       onClick={(event) =>
                         handleDeleteImage(img.id, values.id, event)
                       }
@@ -133,13 +133,13 @@ function EditSuperheroForm({
                 onChange={handleImageChange}
               />
               <button
-                className="upload-button"
+                className={styles["upload-button"]}
                 onClick={(event) => handleUploadImage(values.id, event)}
               >
                 Upload Image
               </button>
             </div>
-            <button type="submit" className="button-submit ">
+            <button type="submit" className={styles["button-submit"]}>
               Save
             </button>
           </Form>

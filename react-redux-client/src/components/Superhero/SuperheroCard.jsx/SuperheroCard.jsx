@@ -27,7 +27,7 @@ function SuperheroCard({
       );
       setSelectedHero(updatedSelectedHero || null);
     }
-  }, [heroesToDisplay]);
+  }, [heroesToDisplay,selectedHero]);
 
   const getHeroesForCurrentPage = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -47,27 +47,34 @@ function SuperheroCard({
 
   return (
     <div className={style.cardContainer}>
-			<div></div>
+      <div></div>
       <div className={style.cardWrapper}>
-        {heroesToDisplay.map((hero) => (
-          <div
-            key={hero.id}
-            onClick={() => setSelectedHero(hero)}
-            className={style.card}
-          >
-            <p>Superhero ID: {hero.id}</p>
-            {hero.SuperhroImgs[0] && (
-              <img
-                src={`${constants.publicImgURL}${hero.SuperhroImgs[0].superheroImgPath}`}
-                alt="Описание изображения"
-              />
-            )}
-            <div>
-              <p>Nickname: {hero.nickname}</p>
-              <button onClick={() => setSelectedHero(hero)}>Details</button>
-            </div>
-          </div>
-        ))}
+        {heroesToDisplay
+          ? heroesToDisplay
+              .slice()
+              .sort((a, b) => a.id - b.id) 
+              .map((hero) => (
+                <div
+                  key={hero.id}
+                  onClick={() => setSelectedHero(hero)}
+                  className={style.card}
+                >
+                  <p>Superhero ID: {hero.id}</p>
+                  {hero.SuperhroImgs[0] && (
+                    <img
+                      src={`${constants.publicImgURL}${hero.SuperhroImgs[0].superheroImgPath}`}
+                      alt="Описание изображения"
+                    />
+                  )}
+                  <div>
+                    <p>Nickname: {hero.nickname}</p>
+                    <button onClick={() => setSelectedHero(hero)}>
+                      Details
+                    </button>
+                  </div>
+                </div>
+              ))
+          : null}
       </div>
 
       {openDescription && selectedHero && (

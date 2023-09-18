@@ -17,65 +17,60 @@ const SuperheroAPI = {
 	createSuperhero: async (payload) => {
 		try {
 			const data = await httpClient.post('/superhero/createSuperhero', payload)
-			return data
+			alert("Hero created successfully");
+			return data;
 		} catch (error) {
-			console.error("Error fetching superhero data:", error);
+			alert("Error creating superhero:", error);
 			throw error;
 		}
 	},
 	addSuperheroImg: async (id, formData) => {
 		try {
-			await httpClient.post(`/superheroImg/${id}/img`, formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				});
+			await httpClient.post(`/superheroImg/${id}/img`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			alert("Superhero image uploaded successfully");
 		} catch (error) {
-			console.error("Error fetching superhero data:", error);
+			alert("Error uploading superhero image:", error);
 			throw error;
 		}
 	},
-	getSuperheroByID: async (payload) => {
-		try {
-			await httpClient.get(`'/superhero/`)
-		} catch (error) {
-		}
-	},
+
 	deleteSuperhero: async ({ heroId, imgsId }) => {
 		try {
 			await httpClient.delete(`/superheroImg/${heroId}/img`, {
 				data: { superheroIds: imgsId },
-			})
+			});
 			await httpClient.delete(`/superhero/${heroId}`);
+			alert("Superhero deleted successfully");
 		} catch (error) {
-			console.error("Error fetching superhero data:", error);
+			alert("Error deleting superhero:", error);
 			throw error;
 		}
 	},
 	updateSuperhero: async (payload) => {
-		const { superpower } = payload
+		const { superpower } = payload;
 		try {
-			await httpClient.put(`/superhero/${payload.id}`, payload)
-			await httpClient.put(`/superpower/${payload.superpowerid}`, { superpower })
+			await httpClient.put(`/superhero/${payload.id}`, payload);
+			await httpClient.put(`/superpower/${payload.superpowerid}`, { superpower });
+			alert("Superhero updated successfully");
 		} catch (error) {
-			console.error("Error fetching superhero data:", error);
+			alert("Error updating superhero:", error);
 			throw error;
 		}
 	},
 	deleteSuperheroImg: async ({ superheroId, imageId }) => {
-
-
 		try {
 			await httpClient.delete(`/superheroImg/${superheroId}/img`, {
 				data: { superheroIds: [imageId] },
-			})
+			});
+			alert("Superhero image deleted successfully");
 		} catch (error) {
-
+			alert("Error deleting superhero image:", error);
 		}
-	}
+	},
 };
-
-
 
 export { SuperheroAPI };
