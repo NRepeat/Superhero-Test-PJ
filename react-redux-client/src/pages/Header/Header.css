@@ -1,0 +1,59 @@
+/* Стили для основного контейнера хедера */
+.header-container {
+  background-color: #333;
+  color: rgb(238, 14, 14);
+  padding: 20px;
+  text-align: center;
+}
+
+/* Стили для заголовка */
+.header-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Стили для ссылки "Go back to Home Page" */
+.header-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+}
+
+/* Стили для вкладок */
+.tabs {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #444;
+  color: white;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.tab.active {
+  background-color: #555;
+}
+
+.tab:hover {
+  background-color: #555;
+}
+
+/* Стили для содержимого вкладок */
+.tab-content {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-top: 10px;
+}

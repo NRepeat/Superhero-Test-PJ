@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import constants from "../../../constants";
-
+import "./EditSuperheroForm.scss"; 
 function EditSuperheroForm({
   superhero,
   onUpdate,
@@ -13,13 +13,10 @@ function EditSuperheroForm({
     superpower: superpower.superpower,
   }));
 
-  console.log(superpowerArray);
- 
   let updatedSuperhero = { ...superhero };
-	delete  updatedSuperhero.superpowers
-  updatedSuperhero.superpower =  superpowerArray[0].superpower ;
-	updatedSuperhero.superpowerid=superpowerArray[0].superpowerid
-
+  delete updatedSuperhero.superpowers;
+  updatedSuperhero.superpower = superpowerArray[0].superpower;
+  updatedSuperhero.superpowerid = superpowerArray[0].superpowerid;
 
   const [newImage, setNewImage] = useState(null);
 
@@ -31,7 +28,6 @@ function EditSuperheroForm({
   const handleDeleteImage = (imageId, superheroId, event) => {
     event.preventDefault();
     onDeleteImage({ imageId, superheroId });
-    onUpdate(superhero);
   };
 
   const handleUploadImage = (superheroId, event) => {
@@ -51,9 +47,8 @@ function EditSuperheroForm({
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form>
+        <Form className="form-container">
           <div>
-           
             <h2>Edit Superhero</h2>
             <label>
               Nickname:
@@ -103,7 +98,7 @@ function EditSuperheroForm({
           <div>
             <h3>Image</h3>
             {values.SuperhroImgs.map((img) => (
-              <div key={img.id}>
+              <div key={img.id} className="image-container">
                 <img
                   src={`${constants.publicImgURL}${img.superheroImgPath}`}
                   alt="Superhero"
@@ -127,7 +122,7 @@ function EditSuperheroForm({
               Upload Image
             </button>
           </div>
-          <button type="submit">Save</button>
+          <button type="submit"  className="submit-button">Save</button>
         </Form>
       )}
     </Formik>
