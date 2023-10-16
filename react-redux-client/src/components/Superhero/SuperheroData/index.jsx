@@ -26,7 +26,7 @@ function SuperheroData(props) {
   const handleDelete = async (superhero) => {
     try {
       const imgsId = superhero.SuperhroImgs.map((img) => img.id);
-      await dispatch(deleteSuperhero({ imgsId, heroId: superhero.id }));
+       dispatch(deleteSuperhero({ imgsId, heroId: superhero.id }));
 
       setCanFetch(true);
     } catch (error) {
